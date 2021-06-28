@@ -8,8 +8,23 @@
 </head>
 <body>
 
+<h3>SW Status</h3>
+<pre id="kind"></pre>
+
+
+<h3>Fetching?</h3>
+
+<button id="get-cache">Fetch from cache</button>
+
+<pre id="result"></pre>
+
+<h3>Caches</h3>
+
+<pre id="caches"></pre>
 
 <script>
+
+if ()
 
 if ('serviceWorker' in navigator) {
     navigator.serviceWorker.register('sw.js', {
@@ -35,13 +50,26 @@ if ('serviceWorker' in navigator) {
     }).catch (function (error) {
         // Something went wrong during registration. The service-worker.js file
         // might be unavailable or contain a syntax error.
-        if (error) throw `${error}`;
+        if (error) throw error;
     });
 } else {
     // The current browser doesn't support service workers.
     // Perhaps it is too old or we are not in a Secure Context.
     console.error('no service workers?')
 }
+
+document.querySelector('#get-cache').addEventListener('click', () => {
+  fetch('https://oval-yellow-canvas-beast.fission.app/sw.json')
+    .catch(console.error)
+    .then(response => response.json())
+    .then(data => {
+      document.querySelector('#result').textContent = JSON.stringify(data, null, '  ');
+    });
+});
+
+
+
+
 
 </script>
 </body>
